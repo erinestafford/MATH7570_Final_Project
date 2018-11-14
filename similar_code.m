@@ -1,6 +1,6 @@
 
 %% For finite difference approach:
-
+%change
 % Iteration part...
 
 % Initialize solution (U) given iniital average concentrations:
