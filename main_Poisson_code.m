@@ -7,5 +7,6 @@ x = 0:1/(n-1):1;
 y = 0:1/(n-1):1;
 [X,Y] = meshgrid(x,y);
 rhs = d2u_1(X,Y);
-jacobi_solve(n,rhs)
+jacobi_solve(n,rhs);
+gauss_seidel_solve(n,rhs)
 u_1(X,Y)
