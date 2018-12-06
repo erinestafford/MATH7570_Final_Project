@@ -16,12 +16,16 @@ while 1
             %Apply BCs
             if(i ==1)
                 x_new(i,j) = x0(j);
+                r(i,j) = 0;
             elseif(i==np+2)
                 x_new(i,j) = x1(j);
+                r(i,j) = 0;
             elseif(j==1)
                 x_new(i,j) = y0(i);
+                r(i,j) = 0;
             elseif(j==np+2)
                 x_new(i,j) = y1(i);
+                r(i,j) = 0;
             else
                 x_new(i,j) = (1/4)*(x(i-1,j)+x(i+1,j) + x(i,j-1) + x(i,j+1) - h^2 *rhs(i,j));
                 r(i,j) = rhs(i,j) - (1/h^2)*(x(i-1,j)+x(i+1,j) + x(i,j-1) + x(i,j+1)-4*x(i,j));

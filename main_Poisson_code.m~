@@ -10,17 +10,18 @@ u_4 = @(x,y) (x-.5).^4 + (y-.5).^4;
 d2u_4 = @(x,y) 12*(x-.5).^2 + 12*(y-.5).^2;
 % c = 1;
 %% Run iterative methods
-for i = 55
+for i = 5
     n = i;
     h = 1/(n+1);
     x = 0:h:1;
     y = 0:h:1;
     [X,Y] = meshgrid(x,y); 
-    rhs = d2u_1(X,Y);
+    rhs = d2u_2(X,Y);
     
-    sol = u_1(X,Y);
+    sol = u_2(X,Y)
     u_j = jacobi_solve(n,rhs,sol(1,:),sol(end,:),sol(:,1),sol(:,end));
     u_gs = gauss_seidel_solve(n,rhs,sol(1,:),sol(end,:),sol(:,1),sol(:,end));
+    u_cg = conjugate_gradient_solve(n,rhs,sol(1,:),sol(end,:),sol(:,1),sol(:,end))
 %% record error due to grid size
 %     e_j(c) = (1/n)*norm(sol - u_j,1);
 %     e_gs(c) = (1/n)*norm(sol - u_gs,1);
@@ -62,11 +63,17 @@ zq_j=interp2(X,Y,u_j,xq,yq);
 zq_gs=interp2(X,Y,u_gs,xq,yq);
 zq_sol=interp2(X,Y,sol,xq,yq); 
 figure()
-plot(xq,zq_j)
-title("Cross Section of Jacobi Solution to Au=\Deltau");ylabel("y");xlabel("x");zlabel("u(x,y)");
+plot(xq,zq_j,'LineWidth',3)
+title("Cross Section of Jacobi Solution to Au=\Deltau");xlabel("x");ylabel("u(x,y)");
 ax = gca; % current axes
 ax.FontSize = 14;
 figure()
-plot(xq,zq_gs)
+plot(xq,zq_gs,'LineWidth',3)
+title("Cross Section of Gauss-Seidel Solution to Au=\Deltau");xlabel("x");ylabel("u(x,y)");
+ax = gca; % current axes
+ax.FontSize = 14;
 figure()
-plot(xq,zq_sol)
+plot(xq,zq_sol,'LineWidth',3)
+title("Cross Section of True Solution to Au=\Deltau");xlabel("x");ylabel("u(x,y)");
+ax = gca; % current axes
+ax.FontSize = 14;
