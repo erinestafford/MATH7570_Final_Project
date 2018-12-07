@@ -45,6 +45,10 @@ while k < np+3
     gamma = (r_p(:)'*Ar(:))/(norm(r_p(:),2)^2);
     %% Update x
     x_n = x + (1/(beta+gamma))*(r - gamma*(x-x_p));
+    x_n(1,:) = x0;
+    x_n(np+2,:) = x1;
+    x_n(:,1) = y0;
+    x_n(:,np+2) = y1;
     x_p = x;
     x = x_n;
     
