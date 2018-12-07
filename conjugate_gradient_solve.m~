@@ -35,7 +35,7 @@ while k < np+3
             elseif (i == np+2 && j~=np+2&&j ~=1) %row np
                 Ar(i,j) = -4*r(i,j) + r(i,j-1) +r(i,j+1) + r(i-1,j);
             else
-                Ar(i,j) = r(i-1,j)+r(i+1,j) + r(i,j-1) + r(i,j+1)-4*r(i,j);
+                Ar(i,j) = r(i-1,j)+r(i+1,j) + r(i,j-1) + r(i,j+1)-4*(i,j);
             end
         end
    end

@@ -16,11 +16,11 @@ for i = 55
     x = 0:h:1;
     y = 0:h:1;
     [X,Y] = meshgrid(x,y); 
-    rhs = d2u_1(X,Y);
-    sol = u_1(X,Y);
+    rhs = d2u_2(X,Y);
+    sol = u_2(X,Y);
 %     u_j = jacobi_solve(n,rhs,sol(1,:),sol(end,:),sol(:,1),sol(:,end));
 %     u_gs = gauss_seidel_solve(n,rhs,sol(1,:),sol(end,:),sol(:,1),sol(:,end));
-    u_cg = conjugate_gradient_solve_old(n,rhs,sol(1,:),sol(end,:),sol(:,1),sol(:,end));
+    u_cg = conjugate_gradient_solve(n,rhs,sol(1,:),sol(end,:),sol(:,1),sol(:,end));
 %% record error due to grid size
 %     e_j(c) = (1/n)*norm(sol - u_j,1);
 %     e_gs(c) = (1/n)*norm(sol - u_gs,1);

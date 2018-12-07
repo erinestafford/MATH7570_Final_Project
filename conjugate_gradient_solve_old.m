@@ -1,4 +1,4 @@
-function x = conjugate_gradient_solve(np, rhs,x0,x1,y0,y1)
+function x = conjugate_gradient_solve_old(np, rhs,x0,x1,y0,y1)
 % np - number of grid points
 % rhs - matrix of values of 2nd derivative
 %% initialize
