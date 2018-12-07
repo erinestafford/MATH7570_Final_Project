@@ -10,7 +10,7 @@ u_4 = @(x,y) (x-.5).^4 + (y-.5).^4;
 d2u_4 = @(x,y) 12*(x-.5).^2 + 12*(y-.5).^2;
 % c = 1;
 %% Run iterative methods
-for i = 5
+for i = 55
     n = i;
     h = 1/(n+1);
     x = 0:h:1;
@@ -20,7 +20,7 @@ for i = 5
     sol = u_1(X,Y);
 %     u_j = jacobi_solve(n,rhs,sol(1,:),sol(end,:),sol(:,1),sol(:,end));
 %     u_gs = gauss_seidel_solve(n,rhs,sol(1,:),sol(end,:),sol(:,1),sol(:,end));
-    u_cg = conjugate_gradient_solve(n,rhs,sol(1,:),sol(end,:),sol(:,1),sol(:,end));
+    u_cg = conjugate_gradient_solve_old(n,rhs,sol(1,:),sol(end,:),sol(:,1),sol(:,end));
 %% record error due to grid size
 %     e_j(c) = (1/n)*norm(sol - u_j,1);
 %     e_gs(c) = (1/n)*norm(sol - u_gs,1);
