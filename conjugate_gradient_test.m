@@ -1,70 +1,57 @@
-function x = conjugate_gradient_test(np, rhs,x0,x1,y0,y1)
-num =np;
-x = zeros(num+2,num+2); %phi
-dx = 1/(np+1);
-r = rhs;
-p = r;
-Ap = r;
+function x = conjugate_gradient_test
+% CONJGRAD  Conjugate Gradient Method.
+%   X = CONJGRAD(A,B) attemps to solve the system of linear equations A*X=B
+%   for X. The N-by-N coefficient matrix A must be symmetric and the right
+%   hand side column vector B must have length N.
+%
+%   X = CONJGRAD(A,B,TOL) specifies the tolerance of the method. The
+%   default is 1e-10.
+%
+% Example (highlight lines between %{ and %}, then press F9):
+u_1 = @(x,y) x.*(x-1).*y.*(y-1);
+d2u_1 = @(x,y) 2*x.^2 + 2*y.^2 - 2*x - 2*y;
+n = 50;
+h = 1/(n+1);
+x = 0:h:1;
+y = 0:h:1;
+[X,Y] = meshgrid(x,y); 
+b = d2u_1(X,Y);
+b = h^2*b(:);
+sol = u_1(X,Y);
+sol = sol(:);
+A = zeros((n+2)^2,(n+2)^2);
+A(1:n,1:n) = diag(-4*ones(n,1)) + diag(ones(n-1,1),-1) + diag(ones(n-1,1),1);
+A(n+1:2*n,n+1:2*n) = diag(-4*ones(n,1)) + diag(ones(n-1,1),-1) + diag(ones(n-1,1),1);
+A(2*n+1:3*n,2*n+1:3*n) = diag(-4*ones(n,1)) + diag(ones(n-1,1),-1) + diag(ones(n-1,1),1);
+A(3*n+1:4*n,3*n+1:4*n) = diag(-4*ones(n,1)) + diag(ones(n-1,1),-1) + diag(ones(n-1,1),1);
+A((n+1):n^2,1:n) = eye(size(A((n+1):n^2,1:n)));
+A(1:n,(n+1):n^2) = eye(size(A(1:n,(n+1):n^2)));
 
-rr = 0.0;
-for i = 1:num
-    for j = 1:num
-        p(i,j) = r(i,j);
-        rr = rr+ (r(i,j) * r(i,j));
+b-A*sol
+    if nargin<3
+        tol=1e-10;
     end
-end
-
-k = 0;
-tol = 1.0e-8;
-while (rr > tol) 
-		for i = 2:num+1
-            for j = 2:num+1
-                Ap(i,j) = -4.0 * p(i,j)+ p(i-1,j)+p(i,j+1)+ p(i+1,j)+ p(i,j-1);
-            end
-        end
-
-        pAp = 0.0;
-		for i = 2:num+1
-            for j = 2:num+1
-                pAp = pAp+ p(i,j) * Ap(i,j);
-            end
-        end
-		alpha = rr / pAp;
-
-		rr1 = 0.0;
-		for i = 1:num+2
-            for j = 1:num+2
-                %Apply BCs
-            if(i ==1)
-                x(i,j) = x0(j);
-                r(i,j) = 0;
-            elseif(i==np+2)
-                x(i,j) = x1(j);
-                r(i,j) = 0;
-            elseif(j==1)
-                x(i,j) = y0(i);
-                r(i,j) = 0;
-            elseif(j==np+2)
-                x(i,j) = y1(i);
-                r(i,j) = 0;
-            else
-                x(i,j) = x(i,j) + alpha * p(i,j);
-                r(i,j) = r(i,j) - alpha * Ap(i,j);
-                rr1 =rr1+ (r(i,j) * r(i,j));
-            end
-            end
-        end
-        
-        beta = rr1 / rr;
-
-		for i = 2:num+1
-            for j = 2:num+1
-                p(i,j) = r(i,j) + beta * p(i,j);
-            end
-        end
-
-		rr = rr1;
-		k = k+1;
-	end
-
-end
+    x = b;
+    r = b - A*x;
+    if norm(r) < tol
+        return
+    end
+    y = -r;
+    z = A*y;
+    s = y'*z;
+    t = (r'*y)/s;
+    x = x + t*y;
+  
+    for k = 1:numel(b);
+       r = r - t*z;
+       if( norm(r) < tol )
+            return;
+       end
+       B = (r'*z)/s;
+       y = -r + B*y;
+       z = A*y;
+       s = y'*z;
+       t = (r'*y)/s;
+       x = x + t*y;
+    end
+ end

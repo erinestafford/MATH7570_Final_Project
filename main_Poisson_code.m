@@ -10,18 +10,17 @@ u_4 = @(x,y) (x-.5).^4 + (y-.5).^4;
 d2u_4 = @(x,y) 12*(x-.5).^2 + 12*(y-.5).^2;
 % c = 1;
 %% Run iterative methods
-for i = 6
+for i = 5
     n = i;
     h = 1/(n+1);
     x = 0:h:1;
     y = 0:h:1;
     [X,Y] = meshgrid(x,y); 
     rhs = d2u_1(X,Y);
-    
-    sol = u_1(X,Y)
+    sol = u_1(X,Y);
 %     u_j = jacobi_solve(n,rhs,sol(1,:),sol(end,:),sol(:,1),sol(:,end));
 %     u_gs = gauss_seidel_solve(n,rhs,sol(1,:),sol(end,:),sol(:,1),sol(:,end));
-    u_cg = conjugate_gradient_test(n,rhs,sol(1,:),sol(end,:),sol(:,1),sol(:,end))
+    u_cg = conjugate_gradient_solve(n,rhs,sol(1,:),sol(end,:),sol(:,1),sol(:,end));
 %% record error due to grid size
 %     e_j(c) = (1/n)*norm(sol - u_j,1);
 %     e_gs(c) = (1/n)*norm(sol - u_gs,1);
@@ -40,18 +39,25 @@ end
 % ax = gca; % current axes
 % ax.FontSize = 14;
 % grid on
-% figure()
-% surf(X,Y,sol)
-% title("True Solution to Au=\Deltau");ylabel("y");xlabel("x");zlabel("u(x,y)");
-% ax = gca; % current axes
-% ax.FontSize = 14;
-% grid on
+figure()
+surf(X,Y,sol)
+title("True Solution to Au=\Deltau");ylabel("y");xlabel("x");zlabel("u(x,y)");
+ax = gca; % current axes
+ax.FontSize = 14;
+grid on
 % figure()
 % surf(X,Y,u_gs)
 % title("Gauss-Seidel Solution to Au=\Deltau");ylabel("y");xlabel("x");zlabel("u(x,y)");
 % ax = gca; % current axes
 % ax.FontSize = 14;
 % grid on
+
+figure()
+surf(X,Y,u_cg)
+title("Conjugate Gradient to Au=\Deltau");ylabel("y");xlabel("x");zlabel("u(x,y)");
+ax = gca; % current axes
+ax.FontSize = 14;
+grid on
 
 %% Cross Section Plots
 % Create x and y over the slicing plane

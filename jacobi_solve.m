@@ -32,6 +32,7 @@ while 1
             end
         end
     end
+ 
     if norm(r(:),2)/norm_rhs < tol
          break;
     end
