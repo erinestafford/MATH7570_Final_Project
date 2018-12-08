@@ -12,7 +12,7 @@ r= h^2*rhs;
 r_p = r;
 %% Iteration
 k = 0;
-while k < np+3
+while 1
     %% Ar = A*r the matrix times the search direction
        for i = 1:np+2 %x
         for j = 1:np+2 %y
@@ -35,16 +35,20 @@ while k < np+3
             elseif (i == np+2 && j~=np+2&&j ~=1) %row np
                 Ar(i,j) = -4*r(i,j) + r(i,j-1) +r(i,j+1) + r(i-1,j);
             else
-                Ar(i,j) = r(i-1,j)+r(i+1,j) + r(i,j-1) + r(i,j+1)-4*(i,j);
+                Ar(i,j) = r(i-1,j)+r(i+1,j) + r(i,j-1) + r(i,j+1)-4*r(i,j);
             end
         end
    end
-   
+   Ar = (1/h^2)*Ar;
     %% Calculate beta and gamma
     beta = (r(:)'*Ar(:))/(norm(r(:),2)^2);
     gamma = (r_p(:)'*Ar(:))/(norm(r_p(:),2)^2);
     %% Update x
     x_n = x + (1/(beta+gamma))*(r - gamma*(x-x_p));
+    x_n(1,:) = x0;
+    x_n(np+2,:) = x1;
+    x_n(:,1) = y0;
+    x_n(:,np+2) = y1;
     x_p = x;
     x = x_n;
     
@@ -57,6 +61,11 @@ while k < np+3
     
    %% update number of iterations
    k = k+1;
+   
+   %% stopping criteria
+   if norm(r(:),2)/norm(rhs(:),2) < tol
+         break;
+    end
 end
 
 

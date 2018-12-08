@@ -8,16 +8,16 @@ h = 1/(np+1);
 x = zeros(np+2,np+2); %initial guess is zeros
 x_p = x;
 x_n = x;
-r= h^2*rhs;
+r= rhs;
 r_p = r;
 %% Iteration
 k = 0;
-while k < np+3
+while r(:)'*r(:) >tol
     %% Ar = A*r the matrix times the search direction
-       for i = 1:np+2 %x
+  for i = 1:np+2 %x
         for j = 1:np+2 %y
             Ar(i,j) = 0;
-            %% Apply BCs
+            % Apply BCs
             if (i ==1 && j ==1) %p(1,1)
                 Ar(i,j) = -4*r(i,j) + r(i,j+1) + r(i+1,j);
             elseif (i~=1 && i~=np+2 && j==1) %column 1
@@ -35,11 +35,11 @@ while k < np+3
             elseif (i == np+2 && j~=np+2&&j ~=1) %row np
                 Ar(i,j) = -4*r(i,j) + r(i,j-1) +r(i,j+1) + r(i-1,j);
             else
-                Ar(i,j) = r(i-1,j)+r(i+1,j) + r(i,j-1) + r(i,j+1)-4*r(i,j);
+                Ar(i,j) = (r(i-1,j)+r(i+1,j) + r(i,j-1) + r(i,j+1)-4*r(i,j));
             end
         end
    end
-   
+   Ar = Ar/h^2;
     %% Calculate beta and gamma
     beta = (r(:)'*Ar(:))/(norm(r(:),2)^2);
     gamma = (r_p(:)'*Ar(:))/(norm(r_p(:),2)^2);
@@ -61,6 +61,8 @@ while k < np+3
     
    %% update number of iterations
    k = k+1;
+   
+   
 end
 
 

@@ -10,7 +10,7 @@ u_4 = @(x,y) (x-.5).^4 + (y-.5).^4;
 d2u_4 = @(x,y) 12*(x-.5).^2 + 12*(y-.5).^2;
 % c = 1;
 %% Run iterative methods
-for i = 55
+for i = 5
     n = i;
     h = 1/(n+1);
     x = 0:h:1;
