@@ -28,6 +28,6 @@ x = reshape(x.', [(n), (n)])';
             end
         end
   end
-   Ax = Ax;
+   Ax = (1/h^2)* Ax;
    Ax = reshape(Ax.', [],1);
 end
