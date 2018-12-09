@@ -1,8 +1,8 @@
-function x = jacobi_solve(np, rhs,x0,x1,y0,y1)
+function [x,k] = jacobi_solve(np, rhs,x0,x1,y0,y1)
 % np - number of grid points
 % rhs - matrix of values of 2nd derivative
 % x0,x1,y0,y1 - the boundary conditions
-tol = 1e-6;
+tol = 1e-10;
 h = 1/(np+1);
 x = zeros(np+2,np+2);
 x_new = zeros(np+2,np+2);
@@ -10,6 +10,7 @@ r = zeros(np+2,np+2);
 norm_rhs = norm( rhs(:),2);
 %% Update x
 tol = 1e-6;
+k = 1;
 while 1
     for i = 1:np+2 %x
         for j = 1:np+2 %y
@@ -37,5 +38,6 @@ while 1
          break;
     end
     x = x_new;
+    k = k+1;
 end
 end

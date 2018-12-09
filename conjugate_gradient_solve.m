@@ -1,4 +1,4 @@
-function x = conjugate_gradient_solve(np, rhs,x0,x1,y0,y1)
+function [x,k] = conjugate_gradient_solve(np, rhs,x0,x1,y0,y1)
 % np - number of grid points
 % rhs - matrix of values of 2nd derivative
 
@@ -12,7 +12,7 @@ r= rhs;
 r_p = r;
 %% Iteration
 k = 0;
-while r(:)'*r(:) >tol
+while (k < (np+2)^2 && r(:)'*r(:)> tol)
     %% Ar = A*r the matrix times the search direction
   for i = 1:np+2 %x
         for j = 1:np+2 %y
@@ -49,6 +49,7 @@ while r(:)'*r(:) >tol
     x_n(np+2,:) = x1;
     x_n(:,1) = y0;
     x_n(:,np+2) = y1;
+    
     x_p = x;
     x = x_n;
     
@@ -56,6 +57,11 @@ while r(:)'*r(:) >tol
     alpha = -(beta + gamma);
     %% get new r
     new_r = (1/alpha)*(Ar - beta*r - gamma*r_p);
+    new_r(1,:) = zeros(size(new_r(1,:)));
+    new_r(np+2,:) = zeros(size(new_r(np+2,:)));
+    new_r(:,1) = zeros(size(new_r(:,1)));
+    new_r(:,np+2) = zeros(size(new_r(:,np+2)));
+    
     r_p = r;
     r = new_r;
     

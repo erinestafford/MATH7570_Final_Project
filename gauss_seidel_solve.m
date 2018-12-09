@@ -1,4 +1,4 @@
-function x = gauss_seidel_solve(np, rhs,x0,x1,y0,y1)
+function [x,k] = gauss_seidel_solve(np, rhs,x0,x1,y0,y1)
 % np - number of grid points
 % rhs - matrix of values of 2nd derivative
 tol = 1e-6;
@@ -9,6 +9,7 @@ r = zeros(np+2,np+2);
 norm_rhs = norm(rhs(:),2);
 %% Update x
 tol = 1e-6;
+k = 0;
 while 1
     for i = 1:np+2
         for j = 1:np+2
@@ -31,5 +32,6 @@ while 1
          break;
     end
     x = x_new;
+    k = k+1;
 end
 end

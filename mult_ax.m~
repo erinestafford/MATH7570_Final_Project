@@ -1,7 +1,0 @@
-function A = mult_ax( np)
-    I = eye(np+2, np+2);
-    T = diag(-4*ones(np+2,1)) + diag(ones(np+1,1),1)+ diag(ones(np+1,1),-1);
-    A = zeros((np+2)^2,(np+2)^2);
-    z = zeros(np+2, np+2);
-    A = blkdiag(,T,I);
-end
