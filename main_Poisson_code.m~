@@ -11,7 +11,7 @@ d2u_4 = @(x,y) 12*(x-.5).^2 + 12*(y-.5).^2;
 
 %% Run iterative methods
 c = 1;
-for i = 8:4:64
+for i = 55%8:4:64
     n = i;
     h = 1/(n+1);
     x = 0:h:1;
@@ -36,22 +36,22 @@ for i = 8:4:64
     c = c+1;
 end
 %% Plot convergence - number of iterations needed
-figure()
-plot(8:4:64,iter_j, 'color', 'red','LineWidth',3)
-hold on
-plot(8:4:64,iter_gs, 'o-','color', 'blue','LineWidth',3)
-plot(8:4:64,iter_cg, '*-','color', 'green','LineWidth',3)
-title("Number of Iterations Needed vs Grid Size- Example 3");ylabel("Iterations");xlabel("Number of Grid Points");
-ax = gca; % current axes
-ax.FontSize = 14;
-legend('Jacobi Method','Gauss-Seidel Method', 'Conjugate Gradient Method')
+% figure()
+% plot(8:4:64,iter_j, 'color', 'red','LineWidth',3)
+% hold on
+% plot(8:4:64,iter_gs, 'o-','color', 'blue','LineWidth',3)
+% plot(8:4:64,iter_cg, '*-','color', 'green','LineWidth',3)
+% title("Number of Iterations Needed vs Grid Size- Example 2");ylabel("Iterations");xlabel("Number of Grid Points");
+% ax = gca; % current axes
+% ax.FontSize = 14;
+% legend('Jacobi Method','Gauss-Seidel Method', 'Conjugate Gradient Method')
 %% Plot error
 % figure()
 % plot(8:4:64,e_j, 'color', 'red','LineWidth',3)
 % hold on
 % plot(8:4:64,e_gs, 'o','color', 'blue','LineWidth',3)
 % plot(8:4:64,e_cg, '*-','color', 'green','LineWidth',3)
-% title("Error vs. Grid Spacing - Example 4");ylabel("Error");xlabel("Number of Grid Points");
+% title("Error vs. Grid Spacing - Example 2");ylabel("Error");xlabel("Number of Grid Points");
 % ax = gca; % current axes
 % ax.FontSize = 14;
 % legend('Jacobi Method','Gauss-Seidel Method', 'Conjugate Gradient Method')
