@@ -6,6 +6,7 @@ function [x,k] = conjugate_gradient_test(np,h, rhs,x0,x1,y0,y1)
 tol = 1e-8;
 x = zeros((np)^2,1); %initial guess is zeros
 r= rhs;
+rhs_mat = reshape(x.', [np, np])';
 norm_rhs = norm(r,2);
 d = r'*r;
 bd = rhs'*rhs;
@@ -22,10 +23,11 @@ while norm(r,2)/norm_rhs > tol
    x = x + a*p;
    %% Apply BCs 
    x = reshape(x.', [np, np])';
-   x(1,:) = x0;
-   x(np,:) = x1;
-   x(:,1) = y0;
-   x(:,np) = y1;
+   x(1,:) = rhs_mat(1,:)-x0/h^2;
+   x(np,:) = rhs_mat(np,:) - x1/h^2;
+   x(:,1) = rhs_mat(:,1)- y0/h^2;
+   x(:,np) =rhs_mat(:,np)- y1/h^2;
+   
    x = reshape(x.', [],1);
    %%
    r = r - a*s;
