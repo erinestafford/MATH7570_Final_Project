@@ -3,7 +3,6 @@ Ax = zeros(n, n);
 x = reshape(x.', [(n), (n)])';
   for i = 1:n %x
         for j = 1:n %y
-            Ax(i,j) = 0;
             % Apply BCs
             %corners
             if (i ==1 && j ==1) %x(1,1)
